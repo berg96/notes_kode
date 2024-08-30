@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.validators import check_yandex_spelling
 from app.core.db import get_async_session
 from app.core.user import current_superuser, current_user
 from app.crud.note import note_crud
@@ -32,6 +33,8 @@ async def create_new_note(
     user: User = Depends(current_user),
     session: AsyncSession = Depends(get_async_session),
 ):
+    await check_yandex_spelling(note.name)
+    await check_yandex_spelling(note.description)
     return await note_crud.create(note, session, user)
 
 

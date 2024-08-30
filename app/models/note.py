@@ -4,6 +4,6 @@ from app.core.db import Base
 
 
 class Note(Base):
-    name = Column(String(100), unique=True, nullable=False)
+    name = Column(String(100), nullable=False)
     description = Column(Text)
     user_id = Column(Integer, ForeignKey('user.id'))

@@ -9,7 +9,7 @@ NULL_DESCRIPTION = 'Описание заметки не может быть п�
 
 # Базовый класс схемы, от которого наследуем все остальные.
 class NoteBase(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=100)
+    name: Optional[str] = Field(None, max_length=100)
     description: Optional[str]
 
     class Config:
