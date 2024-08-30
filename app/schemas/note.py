@@ -14,7 +14,7 @@ class NoteBase(BaseModel):
 
     class Config:
         extra = 'forbid'
-        min_anystr_length = 1
+        str_min_length = 1
 
 
 class NoteCreate(NoteBase):
@@ -41,4 +41,4 @@ class NoteDB(NoteCreate):
     user_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
