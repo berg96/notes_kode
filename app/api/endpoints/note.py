@@ -6,8 +6,7 @@ from app.core.db import get_async_session
 from app.core.user import current_superuser, current_user
 from app.crud.note import note_crud
 from app.models import User
-
-from app.schemas.note import NoteDB, NoteCreate
+from app.schemas.note import NoteCreate, NoteDB
 
 router = APIRouter()
 

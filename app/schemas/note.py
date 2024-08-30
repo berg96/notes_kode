@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
-
 NULL_NAME = 'Название заметки не может быть пустым!'
 NULL_DESCRIPTION = 'Описание заметки не может быть пустым!'
 
