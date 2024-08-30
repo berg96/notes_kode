@@ -32,7 +32,7 @@ git clone https://github.com/berg96/notes_kode.git
 ```
 cd notes_kode
 ```
-Запустить приложение в контейнерах:
+Запустить приложение в контейнерах, предварительно создав файл .env по примеру .env.example:
 
 ```
 docker compose up -d
