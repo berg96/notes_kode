@@ -1,0 +1,3902 @@
+{
+	"info": {
+		"_postman_id": "17b07692-6664-4423-8a54-f0b8bcfef96a",
+		"name": "KodeNote",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31334995"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "create_users // No Auth",
+					"item": [
+						{
+							"name": "create_first_user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"id\": {\"type\": \"number\"},",
+											"        \"email\": {\"type\": \"string\"},",
+											"        \"is_active\": {\"type\": \"boolean\"},",
+											"        \"is_superuser\": {\"type\": \"boolean\"},",
+											"        \"is_verified\": {\"type\": \"boolean\"}",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 201\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на регистрацию нового пользователя содержит корректные данные - должен вернуться ответ со статус-кодом 201\"",
+											"    ).to.be.eql(\"Created\");",
+											"    const userId = _.get(responseData, \"id\");",
+											"    if (userId) {",
+											"        pm.collectionVariables.set(\"firstUserId\", userId);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{firstUserEmail}}\",\n    \"password\": \"{{firstUserPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_second_user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"id\": {\"type\": \"number\"},",
+											"        \"email\": {\"type\": \"string\"},",
+											"        \"is_active\": {\"type\": \"boolean\"},",
+											"        \"is_superuser\": {\"type\": \"boolean\"},",
+											"        \"is_verified\": {\"type\": \"boolean\"}",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 201\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на регистрацию нового пользователя содержит корректные данные - должен вернуться ответ со статус-кодом 201\"",
+											"    ).to.be.eql(\"Created\");",
+											"    const userId = _.get(responseData, \"id\");",
+											"    if (userId) {",
+											"        pm.collectionVariables.set(\"secondUserId\", userId);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{secondUserEmail}}\",\n    \"password\": \"{{secondUserPassword}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login // No Auth",
+					"item": [
+						{
+							"name": "loging_first_user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"access_token\": {\"type\": \"string\"},",
+											"        \"token_type\": {\"type\": \"string\"}",
+											"    },",
+											"    \"required\": [\"access_token\", \"token_type\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на получение токена содержит корректные данные - должен вернуться ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const token = _.get(responseData, \"access_token\");",
+											"    if (token) {",
+											"        pm.collectionVariables.set(\"firstUserToken\", token);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test('Тип токена должен быть `bearer`', function () {",
+											"    pm.expect(",
+											"        responseData['token_type'] === \"bearer\",",
+											"        \"Убедитесь, что для токена используется транспорт Bearer\"",
+											"    ).to.be.true",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{firstUserEmail}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{firstUserPassword}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/jwt/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"jwt",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loging_second_user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"access_token\": {\"type\": \"string\"},",
+											"        \"token_type\": {\"type\": \"string\"}",
+											"    },",
+											"    \"required\": [\"access_token\", \"token_type\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на получение токена содержит корректные данные - должен вернуться ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const token = _.get(responseData, \"access_token\");",
+											"    if (token) {",
+											"        pm.collectionVariables.set(\"secondUserToken\", token);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test('Тип токена должен быть `bearer`', function () {",
+											"    pm.expect(",
+											"        responseData['token_type'] === \"bearer\",",
+											"        \"Убедитесь, что для токена используется транспорт Bearer\"",
+											"    ).to.be.true",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{secondUserEmail}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{secondUserPassword}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/jwt/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"jwt",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login_superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"access_token\": {\"type\": \"string\"},",
+											"        \"token_type\": {\"type\": \"string\"}",
+											"    },",
+											"    \"required\": [\"access_token\", \"token_type\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на получение токена содержит корректные данные - должен вернуться ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const token = _.get(responseData, \"access_token\");",
+											"    if (token) {",
+											"        pm.collectionVariables.set(\"superuserToken\", token);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test('Тип токена должен быть `bearer`', function () {",
+											"    pm.expect(",
+											"        responseData['token_type'] === \"bearer\",",
+											"        \"Убедитесь, что для токена используется транспорт Bearer\"",
+											"    ).to.be.true",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{superuserEmail}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{superuserPassword}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/jwt/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"jwt",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"item": [
+						{
+							"name": "logout_first_user // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Статус-код ответа должен быть 204\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc пользователя на выход из системы возвращает ответ со статус-кодом 204\"",
+											"    ).to.be.eql('No Content');",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/auth/jwt/logout",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"jwt",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "loging_first_user // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\":{",
+											"        \"access_token\": {\"type\": \"string\"},",
+											"        \"token_type\": {\"type\": \"string\"}",
+											"    },",
+											"    \"required\": [\"access_token\", \"token_type\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Если запроc на получение токена содержит корректные данные - должен вернуться ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const token = _.get(responseData, \"access_token\");",
+											"    if (token) {",
+											"        pm.collectionVariables.set(\"firstUserToken\", token);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test('Тип токена должен быть `bearer`', function () {",
+											"    pm.expect(",
+											"        responseData['token_type'] === \"bearer\",",
+											"        \"Убедитесь, что для токена используется транспорт Bearer\"",
+											"    ).to.be.true",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "{{firstUserEmail}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{firstUserPassword}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseURL}}/auth/jwt/login",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"auth",
+										"jwt",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "bad_requests",
+					"item": [
+						{
+							"name": "registration_bad_requests // No Auth",
+							"item": [
+								{
+									"name": "create_user_with_email_in_use",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseData = pm.response.json();",
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\":{",
+													"        \"detail\": {\"type\": \"string\"},",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Если запроc на регистрацию нового пользователя содержит email уже зарегистрированного пользователя - должен вернуться ответ со статус-кодом 400\"",
+													"    ).to.be.eql(\"Bad Request\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"    pm.expect(",
+													"        responseData[\"detail\"] === \"REGISTER_USER_ALREADY_EXISTS\",",
+													"        \"Ключ `delail` в ответе должен содержать строку `REGISTER_USER_ALREADY_EXISTS`\"",
+													"    ).to.be.true",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"{{firstUserEmail}}\",\n    \"password\": \"{{firstUserPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/register",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create_user_without_password_field",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"array\",",
+													"            \"items\": {",
+													"                \"type\": \"object\",",
+													"                \"properties\": {",
+													"                    \"loc\": {",
+													"                        \"type\": \"array\",",
+													"                        \"items\": {",
+													"                            \"type\": \"string\"",
+													"                        }",
+													"                    },",
+													"                    \"msg\": {",
+													"                        \"type\": \"string\"",
+													"                    },",
+													"                    \"type\": {",
+													"                        \"type\": \"string\"",
+													"                    }",
+													"                },",
+													"                \"required\": [\"loc\", \"msg\", \"type\"],",
+													"                \"additionalProperties\": true",
+													"            }",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Если в запроcе на регистрацию нового пользователя нет поля `password` - должен вернуться ответ со статус-кодом 422\"",
+													"    ).to.be.eql(\"Unprocessable Entity\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"nopassword@user.ru\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/register",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create_user_with_empty_password_field",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"object\",",
+													"            \"properties\": {",
+													"                \"code\": {",
+													"                    \"type\": \"string\"",
+													"                },",
+													"                \"reason\": {",
+													"                    \"type\": \"string\"",
+													"                }",
+													"            },",
+													"            \"required\": [\"code\", \"reason\"],",
+													"            \"additionalProperties\": false",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что запроc на регистрацию нового пользователя с пустым полем `password` возвращает ответ со статус-кодом 400\"",
+													"    ).to.be.eql(\"Bad Request\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"emptypassword@user.ru\",\n    \"password\": \"\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/register",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create_user_without_email_field",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"array\",",
+													"            \"items\": {",
+													"                \"type\": \"object\",",
+													"                \"properties\": {",
+													"                    \"loc\": {",
+													"                        \"type\": \"array\",",
+													"                        \"items\": {",
+													"                            \"type\": \"string\"",
+													"                        }",
+													"                    },",
+													"                    \"msg\": {",
+													"                        \"type\": \"string\"",
+													"                    },",
+													"                    \"type\": {",
+													"                        \"type\": \"string\"",
+													"                    }",
+													"                },",
+													"                \"required\": [\"loc\", \"msg\", \"type\"],",
+													"                \"additionalProperties\": true",
+													"            }",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что запроc на регистрацию нового пользователя без указания поля `username` возвращает ответ со статус-кодом 422\"",
+													"    ).to.be.eql(\"Unprocessable Entity\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"password\": \"{{firstUserPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/register",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create_user_with_empty_email_field",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"array\",",
+													"            \"items\": {",
+													"                \"type\": \"object\",",
+													"                \"properties\": {",
+													"                    \"loc\": {",
+													"                        \"type\": \"array\",",
+													"                        \"items\": {",
+													"                            \"type\": \"string\"",
+													"                        }",
+													"                    },",
+													"                    \"msg\": {",
+													"                        \"type\": \"string\"",
+													"                    },",
+													"                    \"type\": {",
+													"                        \"type\": \"string\"",
+													"                    }",
+													"                },",
+													"                \"required\": [\"loc\", \"msg\", \"type\"],",
+													"                \"additionalProperties\": true",
+													"            }",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что запроc на регистрацию нового пользователя без указания поля `username` возвращает ответ со статус-кодом 422\"",
+													"    ).to.be.eql(\"Unprocessable Entity\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"email\": \"\",\n    \"password\": \"{{firstUserPassword}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/register",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "login_bad_requests // No Auth",
+							"item": [
+								{
+									"name": "loging_with_bad_password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\":{",
+													"        \"detail\": {\"type\": \"string\"},",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что если в запроcе на получение токена указан некорректный пароль - вернётся ответ со статус-кодом 400\"",
+													"    ).to.be.eql(\"Bad Request\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "{{firstUserEmail}}",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "wrongPass",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/login",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "loging_without_password",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"array\",",
+													"            \"items\": {",
+													"                \"type\": \"object\",",
+													"                \"properties\": {",
+													"                    \"loc\": {",
+													"                        \"type\": \"array\",",
+													"                        \"items\": {",
+													"                            \"type\": \"string\"",
+													"                        }",
+													"                    },",
+													"                    \"msg\": {",
+													"                        \"type\": \"string\"",
+													"                    },",
+													"                    \"type\": {",
+													"                        \"type\": \"string\"",
+													"                    }",
+													"                },",
+													"                \"required\": [\"loc\", \"msg\", \"type\"],",
+													"                \"additionalProperties\": true",
+													"            }",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что если в запроcе на получение токена нет поля `password` - вернётся ответ со статус-кодом 422\"",
+													"    ).to.be.eql(\"Unprocessable Entity\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "{{firstUserEmail}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/login",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "loging_without_username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\": {",
+													"        \"detail\": {",
+													"            \"type\": \"array\",",
+													"            \"items\": {",
+													"                \"type\": \"object\",",
+													"                \"properties\": {",
+													"                    \"loc\": {",
+													"                        \"type\": \"array\",",
+													"                        \"items\": {",
+													"                            \"type\": \"string\"",
+													"                        }",
+													"                    },",
+													"                    \"msg\": {",
+													"                        \"type\": \"string\"",
+													"                    },",
+													"                    \"type\": {",
+													"                        \"type\": \"string\"",
+													"                    }",
+													"                },",
+													"                \"required\": [\"loc\", \"msg\", \"type\"],",
+													"                \"additionalProperties\": true",
+													"            }",
+													"        }",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что если в запроcе на получение токена нет поля `username` - вернётся ответ со статус-кодом 422\"",
+													"    ).to.be.eql(\"Unprocessable Entity\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "password",
+													"value": "{{firstUserPassword}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/login",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"login"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "loging_with_bad_username",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\":{",
+													"        \"detail\": {\"type\": \"string\"},",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 400\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что если в запроcе на получение токена передан несуществующий `username` - вернётся ответ со статус-кодом 400\"",
+													"    ).to.be.eql(\"Bad Request\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "this-user_doesnt-exists@user.ru",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "{{firstUserPassword}}",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/login",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "logout_bad_requests",
+							"item": [
+								{
+									"name": "logout_without_token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\":{",
+													"        \"detail\": {\"type\": \"string\"},",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что запроc пользователя на выход из системы без токена аутентификации возвращает ответ со статус-кодом 401\"",
+													"    ).to.be.eql(\"Unauthorized\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/logout",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "logout_with_bad_token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const responseSchema = {",
+													"    \"type\": \"object\",",
+													"    \"properties\":{",
+													"        \"detail\": {\"type\": \"string\"},",
+													"    },",
+													"    \"required\": [\"detail\"],",
+													"    \"additionalProperties\": false",
+													"};",
+													"",
+													"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+													"    pm.expect(",
+													"        pm.response.status,",
+													"        \"Убедитесь, что запроc пользователя на выход из системы с некорректным токеном аутентификации возвращает ответ со статус-кодом 401\"",
+													"    ).to.be.eql(\"Unauthorized\");",
+													"});",
+													"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+													"    pm.response.to.have.jsonSchema(responseSchema);",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "wrong-tokenForUser",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{baseURL}}/auth/jwt/logout",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"auth",
+												"jwt",
+												"logout"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "get_users_me",
+					"item": [
+						{
+							"name": "get_users_me // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Данные из ответа должны совпадать с данными пользователя, присвоенными при его создании\", function () {",
+											"    let firstUserId = pm.collectionVariables.get(\"firstUserId\");",
+											"    let firstUserEmail = pm.collectionVariables.get(\"firstUserEmail\");",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(",
+											"        responseData.id,",
+											"        \"Значение поля `id` в ответе на запрос не соответствует идентификатору, присвоенному пользователю при его создании\"",
+											"    ).to.eql(firstUserId);",
+											"    pm.expect(",
+											"        responseData.email,",
+											"        \"Значение поля `email` в ответе на запрос не соответствует значению, указанному при регистрации пользователя\"",
+											"    ).to.eql(firstUserEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_users_me // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Данные из ответа должны совпадать с данными пользователя, присвоенными при его создании\", function () {",
+											"    let superuserEmail = pm.collectionVariables.get(\"superuserEmail\");",
+											"    const responseData = pm.response.json();",
+											"    pm.expect(",
+											"        responseData.email,",
+											"        \"Значение поля `email` не соответствует значению, указанному при создании пользователя\"",
+											"    ).to.eql(superuserEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "patch_users_me",
+					"item": [
+						{
+							"name": "patch_user_me // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const email = _.get(responseData, \"email\");",
+											"    if (email) {",
+											"        pm.collectionVariables.set(\"firstUserEmail\", email);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Значение поля `email` должно обновиться\", function () {",
+											"    const requestEmail = JSON.parse(pm.request.body.raw).email;",
+											"    const responseEmail = responseData.email;",
+											"    pm.expect(",
+											"        responseEmail,",
+											"        \"Значение поля `email` в ответе должно совпадать со значением данного поля в теле запроса\"",
+											"    ).to.eql(requestEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"new@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_user_me_rollback // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const email = _.get(responseData, \"email\");",
+											"    if (email) {",
+											"        pm.collectionVariables.set(\"firstUserEmail\", email);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Значение поля `email` должно обновиться\", function () {",
+											"    const requestEmail = JSON.parse(pm.request.body.raw).email;",
+											"    const responseEmail = responseData.email;",
+											"    pm.expect(",
+											"        responseEmail,",
+											"        \"Значение поля `email` в ответе должно совпадать со значением данного поля в теле запроса\"",
+											"    ).to.eql(requestEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{firstUserEmail}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users_details",
+					"item": [
+						{
+							"name": "get_user_details // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/{{secondUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{secondUserId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "users_patch // Superuser",
+					"item": [
+						{
+							"name": "patch_users_change_email // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const email = _.get(responseData, \"email\");",
+											"    if (email) {",
+											"        pm.collectionVariables.set(\"firstUserEmail\", email);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Значение поля `email` должно обновиться\", function () {",
+											"    const requestEmail = JSON.parse(pm.request.body.raw).email;",
+											"    const responseEmail = responseData.email;",
+											"    pm.expect(",
+											"        responseEmail,",
+											"        \"Значение поля `email` в ответе должно совпадать со значением данного поля в теле запроса\"",
+											"    ).to.eql(requestEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"new@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_deactivate_user // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const email = _.get(responseData, \"email\");",
+											"    if (email) {",
+											"        pm.collectionVariables.set(\"firstUserEmail\", email);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Значение поля `is_active` должно быть `false`\", function () {",
+											"    pm.expect(",
+											"        responseData.is_active,",
+											"        \"Значение поля `is_active` в ответе должно быть `false`\"",
+											"    ).to.false;",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"is_active\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_rollback // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"id\": {",
+											"            \"type\": \"integer\"",
+											"        },",
+											"        \"email\": {",
+											"            \"type\": \"string\",",
+											"            \"format\": \"email\"",
+											"        },",
+											"        \"is_active\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_superuser\": {",
+											"            \"type\": \"boolean\"",
+											"        },",
+											"        \"is_verified\": {",
+											"            \"type\": \"boolean\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"id\", \"email\", \"is_active\", \"is_superuser\", \"is_verified\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const email = _.get(responseData, \"email\");",
+											"    if (email) {",
+											"        pm.collectionVariables.set(\"firstUserEmail\", email);",
+											"    }",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(\"Значение поля `is_active` должно быть `true`\", function () {",
+											"    pm.expect(",
+											"        responseData.is_active,",
+											"        \"Значение поля `is_active` в ответе должно быть `true`\"",
+											"    ).to.true;",
+											"});",
+											"pm.test(\"Значение поля `email` должно обновиться\", function () {",
+											"    const requestEmail = JSON.parse(pm.request.body.raw).email;",
+											"    const responseEmail = responseData.email;",
+											"    pm.expect(",
+											"        responseEmail,",
+											"        \"Значение поля `email` в ответе должно совпадать со значением данного поля в теле запроса\"",
+											"    ).to.eql(requestEmail);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"{{firstUserEmail}}\",\n    \"is_active\": true\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{superuserToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "users_bad_requests",
+					"item": [
+						{
+							"name": "get_users_me // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc незарегистрированного пользователя возвращает ответ со статус-кодом 401\"",
+											"    ).to.be.eql(\"Unauthorized\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_user_details_without_permission // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 403\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc зарегистрированного пользователя возвращает ответ со статус-кодом 403\"",
+											"    ).to.be.eql(\"Forbidden\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/{{secondUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{secondUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_user_me_empty_email // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"object\",",
+											"                \"properties\": {",
+											"                    \"loc\": {",
+											"                        \"type\": \"array\",",
+											"                        \"items\": {",
+											"                            \"type\": \"string\"",
+											"                        }",
+											"                    },",
+											"                    \"msg\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"type\": {",
+											"                        \"type\": \"string\"",
+											"                    }",
+											"                },",
+											"                \"required\": [\"loc\", \"msg\", \"type\"],",
+											"                \"additionalProperties\": true",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что некорректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_user_me // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос незарегистрированного пользователя возвращает ответ со статус-кодом 401\"",
+											"    ).to.be.eql(\"Unauthorized\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"unauth@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/me",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_user_details // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос незарегистрированного пользователя возвращает ответ со статус-кодом 401\"",
+											"    ).to.be.eql(\"Unauthorized\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/{{secondUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{secondUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_user_details_without_permission // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 403\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос пользователя, не являющегося суперюзером, возвращает ответ со статус-кодом 403\"",
+											"    ).to.be.eql(\"Forbidden\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/{{secondUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{secondUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_user_details_with_bad_user_id // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 404\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос суперпользователя возвращает ответ со статус-кодом 404\"",
+											"    ).to.be.eql(\"Not Found\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/999a",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"999a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete_user // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 405\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос суперпользователя возвращает ответ со статус-кодом 405\"",
+											"    ).to.be.eql(\"Method Not Allowed\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_invalid_email // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"object\",",
+											"                \"properties\": {",
+											"                    \"loc\": {",
+											"                        \"type\": \"array\",",
+											"                        \"items\": {",
+											"                            \"type\": \"string\"",
+											"                        }",
+											"                    },",
+											"                    \"msg\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"type\": {",
+											"                        \"type\": \"string\"",
+											"                    }",
+											"                },",
+											"                \"required\": [\"loc\", \"msg\", \"type\"],",
+											"                \"additionalProperties\": true",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что некорректный запроc суперпользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"newemail.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_without_permission // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 403\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос пользователя, который не является суперюзером, возвращает ответ со статус-кодом 403\"",
+											"    ).to.be.eql(\"Forbidden\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"new2@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_without_permission // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос незарегистрированного пользователя возвращает ответ со статус-кодом 401\"",
+											"    ).to.be.eql(\"Unauthorized\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"new1@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/{{firstUserId}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"{{firstUserId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "patch_users_with_bad_user_id // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 404\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запрос суперпользователя возвращает ответ со статус-кодом 404\"",
+											"    ).to.be.eql(\"Not Found\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"newer@email.ru\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/users/999a",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"users",
+										"999a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "note",
+			"item": [
+				{
+					"name": "create_note",
+					"item": [
+						{
+							"name": "create_first_note // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"name\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"description\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"number\",",
+											"        },",
+											"        \"user_id\": {",
+											"            \"type\": \"number\",",
+											"        }",
+											"    },",
+											"    \"required\": [\"name\", \"description\", \"id\", \"user_id\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const id = _.get(responseData, \"id\");",
+											"    if (id) {",
+											"        pm.collectionVariables.set(\"firstNoteId\", id);",
+											"    }",
+											"    pm.collectionVariables.set(\"firstUserNoteCounter\", 1);",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test\",\n    \"description\": \"test note\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_second_note // Second User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"name\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"description\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"number\",",
+											"        },",
+											"        \"user_id\": {",
+											"            \"type\": \"number\",",
+											"        }",
+											"    },",
+											"    \"required\": [\"name\", \"description\", \"id\", \"user_id\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const id = _.get(responseData, \"id\");",
+											"    if (id) {",
+											"        pm.collectionVariables.set(\"secondNoteId\", id);",
+											"    }",
+											"    pm.collectionVariables.set(\"secondUserNoteCounter\", 1);",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{secondUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Test 2\",\n    \"description\": \"test note 2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_another_note // Second User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"name\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"description\": {",
+											"            \"type\": \"string\"",
+											"        },",
+											"        \"id\": {",
+											"            \"type\": \"number\",",
+											"        },",
+											"        \"user_id\": {",
+											"            \"type\": \"number\",",
+											"        }",
+											"    },",
+											"    \"required\": [\"name\", \"description\", \"id\", \"user_id\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что корректный запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"    const id = _.get(responseData, \"id\");",
+											"    if (id) {",
+											"        pm.collectionVariables.set(\"anotherNoteId\", id);",
+											"    }",
+											"    pm.collectionVariables.set(\"firstUserNoteCounter\", pm.collectionVariables.get('firstUserNoteCounter') + 1);",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Note\",\n    \"description\": \"Another note\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get_notes",
+					"item": [
+						{
+							"name": "get_user_donations // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": {",
+											"        \"properties\": {",
+											"            \"id\": {",
+											"                \"type\": \"number\"",
+											"            },",
+											"            \"name\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"description\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"user_id\": {",
+											"                \"type\": \"number\",",
+											"            }",
+											"        },",
+											"        \"required\": [\"name\", \"id\", \"description\", \"user_id\"],",
+											"        \"additionalProperties\": false",
+											"    }",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(",
+											"    \"В ответе должны быть только заметки пользователя, сделавшего запрос\",",
+											"    function () {",
+											"        pm.expect(",
+											"            responseData.length,",
+											"            \"Убедитесь, что ответ содержит только заметки пользователя, сделавшего запрос\"",
+											"        ).to.be.eql(pm.collectionVariables.get('firstUserNoteCounter'))",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{firstUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/note/my",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_user_donations // Second User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": {",
+											"        \"properties\": {",
+											"            \"id\": {",
+											"                \"type\": \"number\"",
+											"            },",
+											"            \"name\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"description\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"user_id\": {",
+											"                \"type\": \"number\",",
+											"            }",
+											"        },",
+											"        \"required\": [\"name\", \"id\", \"description\", \"user_id\"],",
+											"        \"additionalProperties\": false",
+											"    }",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc зарегистрированного пользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(",
+											"    \"В ответе должны быть только заметки пользователя, сделавшего запрос\",",
+											"    function () {",
+											"        pm.expect(",
+											"            responseData.length,",
+											"            \"Убедитесь, что ответ содержит только заметки пользователя, сделавшего запрос\"",
+											"        ).to.be.eql(pm.collectionVariables.get('secondUserNoteCounter'))",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{secondUserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/note/my",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get_donations // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseData = pm.response.json();",
+											"const responseSchema = {",
+											"    \"type\": \"array\",",
+											"    \"items\": {",
+											"        \"properties\": {",
+											"            \"id\": {",
+											"                \"type\": \"number\"",
+											"            },",
+											"            \"name\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"description\": {",
+											"                \"type\": \"string\"",
+											"            },",
+											"            \"user_id\": {",
+											"                \"type\": \"number\",",
+											"            }",
+											"        },",
+											"        \"required\": [\"name\", \"id\", \"description\", \"user_id\"],",
+											"        \"additionalProperties\": false",
+											"    }",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 200\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 200\"",
+											"    ).to.be.eql(\"OK\");",
+											"});",
+											"pm.test(\"Структура ответа должна соответствовать ожидаемой\", function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											"pm.test(",
+											"    \"Ответ должен содержать все заметки\",",
+											"    function () {",
+											"        pm.expect(",
+											"            responseData.length,",
+											"            \"Этот запрос рассчитан на последовательный запуск коллекции на чистой БД. Для корректной работы на момент отправки этого запроса в БД должно быть только одно пожертвование\"",
+											"        ).to.be.equal(pm.collectionVariables.get('firstUserNoteCounter')+pm.collectionVariables.get('secondUserNoteCounter'));",
+											"    }",
+											");",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "bad_requests",
+					"item": [
+						{
+							"name": "create_note_without_name // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"object\",",
+											"                \"properties\": {",
+											"                    \"loc\": {",
+											"                        \"type\": \"array\",",
+											"                        \"items\": {",
+											"                            \"type\": \"string\"",
+											"                        }",
+											"                    },",
+											"                    \"msg\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"type\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                },",
+											"                \"required\": [\"loc\", \"msg\", \"type\"],",
+											"                \"additionalProperties\": true",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"Note without name\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_note_without_description // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"object\",",
+											"                \"properties\": {",
+											"                    \"loc\": {",
+											"                        \"type\": \"array\",",
+											"                        \"items\": {",
+											"                            \"type\": \"string\"",
+											"                        }",
+											"                    },",
+											"                    \"msg\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"type\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                },",
+											"                \"required\": [\"loc\", \"msg\", \"type\"],",
+											"                \"additionalProperties\": true",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"No description\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_note_with_too_long_name // Superuser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"object\",",
+											"                \"properties\": {",
+											"                    \"loc\": {",
+											"                        \"type\": \"array\",",
+											"                        \"items\": {",
+											"                            \"type\": \"string\"",
+											"                        }",
+											"                    },",
+											"                    \"msg\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"type\": {",
+											"                        \"type\": \"string\"",
+											"                    },",
+											"                    \"ctx\": {",
+											"                        \"type\": \"object\",",
+											"                        \"properties\": {",
+											"                            \"limit_value\": {",
+											"                                \"type\": \"number\"",
+											"                            }",
+											"                        }",
+											"                    }",
+											"                },",
+											"                \"required\": [\"loc\", \"msg\", \"type\", \"ctx\"],",
+											"                \"additionalProperties\": true",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc суперпользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Too long name for note. The limit should be 100 symbols. Request with long name is invalid. Test Test\",\n    \"description\": \"Invalid name test note\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_note // No Auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"string\"",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 401\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc незарегистрированного пользователя возвращает ответ со статус-кодом 401\"",
+											"    ).to.be.eql(\"Unauthorized\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Unauthorized\",\n    \"description\": \"Unauthorized user can not create note\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_note_with_invalid_name // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"string\"",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc пользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Invalif name\",\n    \"description\": \"Test note with invalid name with spelling mistake\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create_note_with_invalid_description // First User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseSchema = {",
+											"    \"type\": \"object\",",
+											"    \"properties\": {",
+											"        \"detail\": {",
+											"            \"type\": \"array\",",
+											"            \"items\": {",
+											"                \"type\": \"string\"",
+											"            }",
+											"        }",
+											"    },",
+											"    \"required\": [\"detail\"],",
+											"    \"additionalProperties\": false",
+											"};",
+											"",
+											"pm.test(\"Статус-код ответа должен быть 422\", function () {",
+											"    pm.expect(",
+											"        pm.response.status,",
+											"        \"Убедитесь, что запроc пользователя возвращает ответ со статус-кодом 422\"",
+											"    ).to.be.eql(\"Unprocessable Entity\");",
+											"});",
+											"pm.test('Структура ответа должна соответствовать ожидаемой', function () {",
+											"    pm.response.to.have.jsonSchema(responseSchema);",
+											"});",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{superuserToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Invalid description\",\n    \"description\": \"Test note with invalif description with spelling mistake\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/note/",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"note",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "firstUserEmail",
+			"value": "first@user.ru",
+			"type": "string"
+		},
+		{
+			"key": "firstUserId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstUserPassword",
+			"value": "firstpass123",
+			"type": "string"
+		},
+		{
+			"key": "firstUserToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondUserEmail",
+			"value": "second@user.ru",
+			"type": "string"
+		},
+		{
+			"key": "secondUserId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondUserPassword",
+			"value": "secondpass456",
+			"type": "string"
+		},
+		{
+			"key": "secondUserToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "superuserEmail",
+			"value": "root@admin.ru",
+			"type": "string"
+		},
+		{
+			"key": "superuserPassword",
+			"value": "root",
+			"type": "string"
+		},
+		{
+			"key": "superuserToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstNoteId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "firstUserNoteCounter",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondNoteId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "secondUserNoteCounter",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "anotherNoteId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
